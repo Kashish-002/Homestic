@@ -1,0 +1,17 @@
+{
+  "name": "homestic",
+  "version": "1.0.0",
+  "description": "Homestic is a smart and seamless platform for booking homestays, vacation rentals, and unique local experiences. Designed to connect travelers with trusted hosts, Homestic brings comfort, community, and convenience together under one roof. Whether you're exploring cities or countryside, feel at home—anywhere.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongoose": "^8.17.0",
+    "nodemon": "^3.1.10"
+  }
+}
