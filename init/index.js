@@ -1,7 +1,6 @@
-const express=require("express");
-const app=express();
 const mongoose=require("mongoose");
-const listing=require("./models/listing.js");
+const initdata=require("./data.js");
+const listing=require("../models/listing.js");
 
 main()
 .then(()=>{
@@ -13,10 +12,10 @@ async function main(){
     await mongoose.connect("mongodb://127.0.0.1:27017/wanderHut");
 }
 
-app.get("/testlisting",(req,res)=>{
-    res.send("working");
-});
+const initDB=async ()=>{
+    await listing.deleteMany({});
+    await listing.insertMany(initdata.data);
+    console.log("Done"); 
+}
 
-app.listen(8080,()=>{
-    console.log("Listening");
-});
+initDB();

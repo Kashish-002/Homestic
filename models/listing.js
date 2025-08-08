@@ -1,6 +1,6 @@
 const mongoose=require("mongoose");
 
-const listingSchema=mongoose.Schema({
+const listingSchema=new mongoose.Schema({
     title:{
         type:String,
         require:true,
@@ -8,10 +8,12 @@ const listingSchema=mongoose.Schema({
     description:{
         type:String,
     },
-    image:{
-        type:String,
-        set:(v)=>v===""?"default":v,
+    image:{     
+    filename: String,
+    url: String,
+    // set:(v)=>v===""?"default":v,
     },
+
     price:{
         type:Number,
     },
