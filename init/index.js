@@ -1,6 +1,6 @@
 const mongoose=require("mongoose");
 const initdata=require("./data.js");
-const listing=require("../models/listing.js");
+const Listing=require("../models/listing.js");
 
 main()
 .then(()=>{
@@ -13,8 +13,8 @@ async function main(){
 }
 
 const initDB=async ()=>{
-    await listing.deleteMany({});
-    await listing.insertMany(initdata.data);
+    await Listing.deleteMany({});
+    await Listing.insertMany(initdata.data);
     console.log("Done"); 
 }
 
