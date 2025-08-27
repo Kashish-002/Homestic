@@ -3,7 +3,7 @@ const mongoose=require("mongoose");
 const listingSchema=new mongoose.Schema({
     title:{
         type:String,
-        require:true,
+        required:true,
     },
     description:{
         type:String,
@@ -19,7 +19,7 @@ const listingSchema=new mongoose.Schema({
     },
     location:{
         type:String,
-        require:true,
+       required:true,
     },
     country:{
         type:String,
