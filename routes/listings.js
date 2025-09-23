@@ -7,7 +7,7 @@ const {listingSchema}=require("../schema.js");
 const passport=require("passport");
 const LocalStrategy=require("passport-local");
 const flash=require("connect-flash");
-
+const {isLoggedIn}=require("../middleware.js");
 
 const validateListing=(req,res,next)=>{
     let {error}=listingSchema.validate(req.body);
@@ -25,16 +25,12 @@ router.get("/", wrapAsync(async (req,res)=>{
 }));
 
 //new listing
-router.get("/new",wrapAsync(async (req,res)=>{
-    if(!req.isAuthenticated()){
-        req.flash("error","you must be logged in to create a listing");
-        return res.redirect("/login");
-    }
-    res.render("listings/new.ejs");
+router.get("/new",isLoggedIn ,wrapAsync(async (req,res)=>{
+   res.render("listings/new.ejs");
 }));
 
 //create route
-router.post("/",validateListing ,wrapAsync(async (req,res)=>{
+router.post("/",isLoggedIn ,validateListing ,wrapAsync(async (req,res)=>{
     const newListing=new Listing(req.body.listing);
     await newListing.save();
     req.flash("success","New listing is created");
@@ -53,20 +49,20 @@ router.get("/:id",wrapAsync(async (req,res)=>{
 }));
 
 //edit route
-router.get("/:id/edit",wrapAsync(async (req,res)=>{
+router.get("/:id/edit",isLoggedIn ,wrapAsync(async (req,res)=>{
     let {id}=req.params;
     const listing=await Listing.findById(id);
     res.render("listings/edit.ejs",{listing});
 }));
 
 //put request for edit
-router.put("/:id",validateListing ,wrapAsync(async (req,res)=>{
+router.put("/:id",isLoggedIn ,validateListing ,wrapAsync(async (req,res)=>{
     let {id}=req.params;
     await Listing.findByIdAndUpdate(id,{...req.body.listing});
     res.redirect(`/listings/${id}`);
 }));
 
-router.delete("/:id",wrapAsync(async (req,res)=>{
+router.delete("/:id", isLoggedIn ,wrapAsync(async (req,res)=>{
     let {id}=req.params;
     await Listing.findByIdAndDelete(id);
     req.flash("success","Listing deleted");
