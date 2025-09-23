@@ -4,6 +4,10 @@ const Listing=require("../models/listing.js");
 const ExpressError=require("../utils/ExpressError.js");
 const wrapAsync=require("../utils/wrapAsync.js");
 const {listingSchema}=require("../schema.js");
+const passport=require("passport");
+const LocalStrategy=require("passport-local");
+const flash=require("connect-flash");
+
 
 const validateListing=(req,res,next)=>{
     let {error}=listingSchema.validate(req.body);
@@ -22,6 +26,10 @@ router.get("/", wrapAsync(async (req,res)=>{
 
 //new listing
 router.get("/new",wrapAsync(async (req,res)=>{
+    if(!req.isAuthenticated()){
+        req.flash("error","you must be logged in to create a listing");
+        return res.redirect("/login");
+    }
     res.render("listings/new.ejs");
 }));
 
