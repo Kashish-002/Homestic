@@ -32,6 +32,7 @@ router.get("/new",isLoggedIn ,wrapAsync(async (req,res)=>{
 //create route
 router.post("/",isLoggedIn ,validateListing ,wrapAsync(async (req,res)=>{
     const newListing=new Listing(req.body.listing);
+    newListing.owner=req.user_.id;
     await newListing.save();
     req.flash("success","New listing is created");
     res.redirect("/listings");}
