@@ -7,16 +7,15 @@
     <div class="card col-6 offset-3 show-cards listing-card">   
        <img src="<%=listings.image.url%>" class="card-img-top show-img" alt="listing_image">
         <div class="card-body">
-          <p class="card-text">
-            
-            <%=listings.description%> <br>
-            &#x20B9; <%=listings.price.toLocaleString('en-IN')%><br>
-            <%=listings.location%> <br>
-            <%=listings.country%>
-        </p>
+           
+          <p class="card-text"><%=listings.description%></p> 
+          <p class="card-text">&#x20B9; <%=listings.price.toLocaleString('en-IN')%></p>
+          <p class="card-text"><%=listings.location%></p> 
+          <p class="card-text"><%=listings.country%></p>
+        
   </div> 
     </div>
-
+    <%if(currUser && listings.owner._id.equals(currUser._id)){%>
     <div class="btns">
         <form method="GET" action="/listings/<%=listings._id%>/edit">
         <button class="btn btn-dark offset-3 edit-btn">Edit</button><br><br>
@@ -25,8 +24,11 @@
         <button class="btn btn-dark offset-3">Delete</button>
     </form>
     </div>
-    <hr>
+     <hr>
+   <%}%>
+   
     <div class="col-8 offset-3 mb-3">
+      <% if(currUser) {%>
       <h4>Leave a review</h4>
       <form action="/listings/<%=listings.id%>/reviews" method="POST" novalidate class="needs-validation">
         <div class="mb-3 mt-3">
@@ -41,14 +43,15 @@
        
         <button class="btn btn-outline-dark">Submit</button>
       </form>
+      <% } %>
       <hr>
       <div class="row ">
         <%for(let review of listings.reviews){%>
         <div class="card col-5 ms-3 mb-3">
           <div class="card-body">
-            <h5 class="card-title">Jane Doe</h5>
-            <p class="card-text"><%=review.comment%></p>
-            <p class="card-text"><%=review.rating%></p>
+            <h5 class="card-title"><%= review.author.username%></h5>
+            <p class="card-text"><%= review.comment%></p>
+            <p class="card-text"><%= review.rating%></p>
           </div>
           <form class="mb-3" method="Post" action="/listings/<%=listings._id%>/reviews/<%=review._id%>?_method=DELETE">
             <button class="btn btn-sm btn-dark ">Delete</button>
@@ -58,5 +61,5 @@
       </div>
     </div>
     </div>
- 
+    
 </body>
